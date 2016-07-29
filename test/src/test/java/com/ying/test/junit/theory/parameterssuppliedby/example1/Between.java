@@ -1,4 +1,4 @@
-package com.ying.test.junit.theory.parameterssuppliedby;
+package com.ying.test.junit.theory.parameterssuppliedby.example1;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;

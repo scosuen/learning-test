@@ -1,4 +1,4 @@
-package com.ying.test.junit.theory.parameterssuppliedby;
+package com.ying.test.junit.theory.parameterssuppliedby.example1;
 
 import static org.junit.Assert.assertTrue;
 
