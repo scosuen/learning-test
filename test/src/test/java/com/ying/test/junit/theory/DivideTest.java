@@ -37,6 +37,11 @@ public class DivideTest {
 		assertEquals(dividend / divisor, MyCalculator.divide(dividend, divisor), DELTA);
 		System.out.println("test Passed with: dividend=" + dividend + ", divisor=" + divisor);
 	}
+	
+	@Theory
+	public void Test3 (int para) {
+		System.out.println("test3 : " + para);
+	}
 
 	@Theory
 	public void test2(@TestedOn(ints = { 0, 5 }) int dividend, 

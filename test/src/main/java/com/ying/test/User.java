@@ -1,4 +1,4 @@
-package com.ying.test.junit.theory.parameterssuppliedby.example3;
+package com.ying.test;
 
 public class User {
 	
