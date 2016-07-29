@@ -1,4 +1,4 @@
-package com.ying.test.junit;
+package com.ying.test.junit.runner;
 
 import org.junit.runner.notification.RunNotifier;
 import org.junit.runners.BlockJUnit4ClassRunner;

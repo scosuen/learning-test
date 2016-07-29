@@ -17,6 +17,7 @@ public class FibonacciTest {
 	private int fExpected;
 
 	public FibonacciTest(int input, int expected) {
+		System.out.println("initial.");
 		fInput = input;
 		fExpected = expected;
 	}
@@ -28,6 +29,7 @@ public class FibonacciTest {
 
 	@Test
 	public void test() {
+		System.out.println("FibonacciTest test.");
 		assertEquals(fExpected, Fibonacci.compute(fInput));
 	}
 }
