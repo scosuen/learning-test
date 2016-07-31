@@ -6,6 +6,7 @@ import static org.junit.Assert.*;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
@@ -27,7 +28,7 @@ public class Test1 {
 	 * 验证行为
 	 */
 	@Test
-	public void test1() {
+	public void test1_1() {
 		List mockList = mock(List.class);
 
 		mockList.add(1);
@@ -36,26 +37,27 @@ public class Test1 {
 		verify(mockList).add(1);
 		verify(mockList).clear();
 	}
-
+	
 	/*
 	 * 模拟我们所期望的结果
 	 */
 	@Test
-	public void test2() {
+	public void test2_1() {
 		Iterator<String> iterator = mock(Iterator.class);
 
 		when(iterator.next()).thenReturn("str 1").thenReturn("str 2");
 
+		//如果实际调用的次数超过了stub过的次数，则会一直返回最后一次stub的值
 		assertEquals("str 1str 2str 2str 2", iterator.next() + iterator.next() + iterator.next() + iterator.next());
 
 	}
 
 	@Test(expected = IOException.class)
-	public void test3() throws IOException {
+	public void test2_2() throws IOException {
 		OutputStream outputStream = mock(OutputStream.class);
 		OutputStreamWriter outputStreamWriter = new OutputStreamWriter(outputStream);
 
-		doThrow(new IOException()).when(outputStream).close();
+		doThrow(new IOException()).when(outputStream).close(); 
 
 		outputStreamWriter.close();
 	}
