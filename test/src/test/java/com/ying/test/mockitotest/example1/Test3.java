@@ -22,6 +22,7 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.mockito.stubbing.Answer;
@@ -149,13 +150,14 @@ public class Test3 {
 
 	@Captor
 	private ArgumentCaptor<Person> personArgument;
+
 	@Test
 	public void test7() {
 		PersonDao personDao = mock(PersonDao.class);
 		PersonService personService = new PersonService(personDao);
-		
+
 		personService.update(1, "Ying");
-		
+
 		verify(personDao).update(personArgument.capture());
 		assertEquals(1, personArgument.getValue().getId());
 		assertEquals("Ying", personArgument.getValue().getName());
@@ -167,12 +169,11 @@ public class Test3 {
 	@Test
 	public void test8() {
 		Person person = mock(Person.class);
-		
+
 		when(person.getId()).thenCallRealMethod();
-		when(person.setId(anyInt())).thenCallRealMethod();
-		
-		assertEquals(12, person.setId(12));
-		assertEquals(12, person.getId());
+		Mockito.doCallRealMethod().when(person).setId(anyInt());
+
+		assertEquals(0, person.getId());
 	}
 
 	/*
@@ -182,11 +183,11 @@ public class Test3 {
 	public void test9() {
 		List list = mock(List.class);
 		when(list.size()).thenReturn(100);
-		
+
 		assertEquals(100, list.size());
-		
+
 		reset(list);
-		
+
 		assertEquals(0, list.size());
 	}
 
@@ -197,17 +198,32 @@ public class Test3 {
 	private Map<String, String> wordMap;
 	@InjectMocks
 	private MyDictionary myDictionary = new MyDictionary();
-	
+
 	@Test
 	public void test10() {
 		when(wordMap.get("aWord")).thenReturn("aMeaning");
-		
+
 		assertEquals("aMeaning", myDictionary.getMeaning("aWord"));
 	}
 
+	/*
+	 * unstubbed方法的返回策略  RETURNS_SMART_NULLS
+	 */
 	@Test
 	public void test11() {
 
+		List mock = mock(List.class, Mockito.RETURNS_SMART_NULLS);
+		System.out.println(mock.get(0));
+		System.out.println(mock.toArray().length);
+	}
+	
+	/*
+	 * unstubbed方法的返回策略  RETURNS_DEEP_STUBS  
+	 */
+	@Test
+	public void test12 () {
+		MyDictionary myDictionary = mock(MyDictionary.class, Mockito.RETURNS_DEEP_STUBS);
+		System.out.println(myDictionary.getMeaning("12"));
 	}
 
 	private class Person {
@@ -222,16 +238,16 @@ public class Test3 {
 		public int getId() {
 			return id;
 		}
-		public int setId (int id) {
+
+		public void setId(int id) {
 			this.id = id;
-			return id;
 		}
 
 		public String getName() {
 			return name;
 		}
-		
-		public void setName (String name) {
+
+		public void setName(String name) {
 			this.name = name;
 		}
 	}
@@ -251,18 +267,16 @@ public class Test3 {
 			personDao.update(new Person(id, name));
 		}
 	}
-	
+
 	private class MyDictionary {
-	    private Map<String, String> wordMap;
-	 
-	    public MyDictionary() {
-	        wordMap = new HashMap<String, String>();
-	    }
-	    public void add(final String word, final String meaning) {
-	        wordMap.put(word, meaning);
-	    }
-	    public String getMeaning(final String word) {
-	        return wordMap.get(word);
-	    }
+		private Map<String, String> wordMap;
+
+		public void add(final String word, final String meaning) {
+			wordMap.put(word, meaning);
+		}
+
+		public String getMeaning(final String word) {
+			return wordMap.get(word);
+		}
 	}
 }

@@ -194,6 +194,8 @@ public class Test1 {
 		List list1 = mock(List.class);
 		List list2 = mock(List.class);
 		List list3 = mock(List.class);
+		
+		list1.add(1);
 
 		// list1.addAll(list2);
 
